@@ -2,15 +2,21 @@
 // CONTACT — replace with your real details
 // =========================================================
 const CONTACT = {
-  linkedin: "https://www.linkedin.com/in/your-username",
-  linkedinDisplay: "/in/your-username",
-  github: "https://github.com/your-username",
-  githubDisplay: "@your-username",
+	linkedin: "https://www.linkedin.com/in/jose-alexander-salamanca-lozano",
+	linkedinDisplay: "/in/jose-alexander-salamanca-lozano",
+	github: "https://github.com/Alexanders1986",
+	githubDisplay: "@Alexanders1986",
 };
 
 const RESUME = {
-  en: { pdf: "assets/CV_Jose_Alexander_Salamanca_Lozano_EN.pdf", docx: "assets/CV_Jose_Alexander_Salamanca_Lozano_EN.docx" },
-  es: { pdf: "assets/CV_Jose_Alexander_Salamanca_Lozano_ES.pdf", docx: "assets/CV_Jose_Alexander_Salamanca_Lozano_ES.docx" },
+	en: {
+		pdf: "assets/CV_Jose_Alexander_Salamanca_Lozano_EN.pdf",
+		docx: "assets/CV_Jose_Alexander_Salamanca_Lozano_EN.docx",
+	},
+	es: {
+		pdf: "assets/CV_Jose_Alexander_Salamanca_Lozano_ES.pdf",
+		docx: "assets/CV_Jose_Alexander_Salamanca_Lozano_ES.docx",
+	},
 };
 
 // =========================================================
@@ -18,21 +24,29 @@ const RESUME = {
 // =========================================================
 let STATE = { theme: "console", lang: "en" };
 try {
-  const saved = JSON.parse(localStorage.getItem("site-prefs") || "{}");
-  if (saved.theme) STATE.theme = saved.theme;
-  if (saved.lang) STATE.lang = saved.lang;
-} catch (e) { /* ignore */ }
+	const saved = JSON.parse(localStorage.getItem("site-prefs") || "{}");
+	if (saved.theme) STATE.theme = saved.theme;
+	if (saved.lang) STATE.lang = saved.lang;
+} catch (e) {
+	/* ignore */
+}
 
 function savePrefs() {
-  try { localStorage.setItem("site-prefs", JSON.stringify(STATE)); } catch (e) { /* ignore */ }
+	try {
+		localStorage.setItem("site-prefs", JSON.stringify(STATE));
+	} catch (e) {
+		/* ignore */
+	}
 }
 
 // =========================================================
 // TEMPLATE: CONSOLE THEME
 // =========================================================
 function renderConsole(t, lang) {
-  const otherLang = lang === "en" ? "es" : "en";
-  const gitlog = t.experience.items.map(item => `
+	const otherLang = lang === "en" ? "es" : "en";
+	const gitlog = t.experience.items
+		.map(
+			(item) => `
       <li class="commit">
         <div class="commit-meta">
           <span class="commit-hash">${item.hash}</span>
@@ -41,22 +55,36 @@ function renderConsole(t, lang) {
         <h3 class="commit-title">${item.role}</h3>
         <p class="commit-org">${item.context}</p>
         <ul class="commit-body">
-          ${item.bullets.map(b => `<li>${b}</li>`).join("")}
+          ${item.bullets.map((b) => `<li>${b}</li>`).join("")}
         </ul>
         <p class="commit-tools">${item.tools}</p>
-      </li>`).join("");
+      </li>`
+		)
+		.join("");
 
-  const techChips = t.skills.technical.map(s => `<li class="chip">${s}</li>`).join("");
-  const compChips = t.skills.complementary.map(s => `<li class="chip chip-amber">${s}</li>`).join("");
+	const techChips = t.skills.technical
+		.map((s) => `<li class="chip">${s}</li>`)
+		.join("");
+	const compChips = t.skills.complementary
+		.map((s) => `<li class="chip chip-amber">${s}</li>`)
+		.join("");
 
-  const certCards = t.certifications.items.map(c => `
+	const certCards = t.certifications.items
+		.map(
+			(c) => `
       <div class="badge-card">
-        <span class="badge-pill${c.gold ? " badge-pill-amber" : ""}"><span class="badge-pill-label">salesforce</span><span class="badge-pill-value">${c.tag}</span></span>
+        <span class="badge-pill${
+					c.gold ? " badge-pill-amber" : ""
+				}"><span class="badge-pill-label">salesforce</span><span class="badge-pill-value">${
+				c.tag
+			}</span></span>
         <p class="badge-name">${c.name}</p>
         <p class="badge-date">${c.date}</p>
-      </div>`).join("");
+      </div>`
+		)
+		.join("");
 
-  return `
+	return `
 <header class="topbar">
   <div class="topbar-inner">
     <div class="brand">
@@ -88,22 +116,35 @@ function renderConsole(t, lang) {
         <span class="terminal-title">jose@salesforce-console: ~</span>
       </div>
       <div class="terminal-body">
-        <p class="line"><span class="prompt">$</span> <span class="cmd">${t.hero.terminal.whoami}</span></p>
+        <p class="line"><span class="prompt">$</span> <span class="cmd">${
+					t.hero.terminal.whoami
+				}</span></p>
         <p class="out out-name">${t.hero.name}</p>
         <p class="out out-role">&gt; ${t.hero.role}</p>
-        <p class="line line-2"><span class="prompt">$</span> <span class="cmd">${t.hero.terminal.catCmd}</span></p>
+        <p class="line line-2"><span class="prompt">$</span> <span class="cmd">${
+					t.hero.terminal.catCmd
+				}</span></p>
         <p class="out out-comment">${t.hero.terminal.lines.join("<br>")}</p>
         <p class="line line-3"><span class="prompt">$</span> <span class="cursor" aria-hidden="true">▌</span></p>
       </div>
     </div>
     <div class="hero-actions">
-      <a class="btn btn-primary" href="${RESUME[lang].pdf}" download><span class="btn-icon">↓</span> ${t.hero.ctaDownload}</a>
+      <a class="btn btn-primary" href="${
+				RESUME[lang].pdf
+			}" download><span class="btn-icon">↓</span> ${t.hero.ctaDownload}</a>
       <a class="btn btn-ghost" href="#contact">${t.hero.ctaContact}</a>
       <a class="btn btn-ghost" href="#experience">${t.hero.ctaExperience}</a>
     </div>
-    <p class="resume-lang-note"><a href="${RESUME[otherLang].pdf}" download class="resume-lang-link">${t.hero.ctaDownloadOther}</a></p>
+    <p class="resume-lang-note"><a href="${
+			RESUME[otherLang].pdf
+		}" download class="resume-lang-link">${t.hero.ctaDownloadOther}</a></p>
     <ul class="hero-stats">
-      ${t.hero.stats.map(s => `<li><span class="stat-num">${s.num}</span><span class="stat-label">${s.label}</span></li>`).join("")}
+      ${t.hero.stats
+				.map(
+					(s) =>
+						`<li><span class="stat-num">${s.num}</span><span class="stat-label">${s.label}</span></li>`
+				)
+				.join("")}
     </ul>
   </div>
 </section>
@@ -112,16 +153,27 @@ function renderConsole(t, lang) {
   <div class="section-inner">
     <h2 class="section-title"><span class="path">~/</span>about<span class="ext-h">.md</span></h2>
     <div class="card prose-card">
-      ${t.about.paragraphs.map(p => `<p>${p}</p>`).join("")}
+      ${t.about.paragraphs.map((p) => `<p>${p}</p>`).join("")}
     </div>
     <div class="grid-two">
       <div class="card">
-        <h3 class="card-title"><span class="accent-mint">#</span> ${t.about.softSkillsTitle}</h3>
-        <ul class="pill-list">${t.about.softSkills.map(s => `<li class="pill pill-blue">${s}</li>`).join("")}</ul>
+        <h3 class="card-title"><span class="accent-mint">#</span> ${
+					t.about.softSkillsTitle
+				}</h3>
+        <ul class="pill-list">${t.about.softSkills
+					.map((s) => `<li class="pill pill-blue">${s}</li>`)
+					.join("")}</ul>
       </div>
       <div class="card">
-        <h3 class="card-title"><span class="accent-mint">#</span> ${t.about.languagesTitle}</h3>
-        <ul class="lang-list">${t.about.languages.map(l => `<li><span>${l.name}</span><span class="lang-level lang-${l.cls}">${l.level}</span></li>`).join("")}</ul>
+        <h3 class="card-title"><span class="accent-mint">#</span> ${
+					t.about.languagesTitle
+				}</h3>
+        <ul class="lang-list">${t.about.languages
+					.map(
+						(l) =>
+							`<li><span>${l.name}</span><span class="lang-level lang-${l.cls}">${l.level}</span></li>`
+					)
+					.join("")}</ul>
       </div>
     </div>
   </div>
@@ -132,9 +184,15 @@ function renderConsole(t, lang) {
     <h2 class="section-title"><span class="path">~/</span>skills<span class="ext-h">.json</span></h2>
     <div class="card code-card" aria-hidden="true">
       <pre class="code-json"><span class="tok-brace">{</span>
-  <span class="tok-key">"platform"</span><span class="tok-punc">:</span> <span class="tok-str">"${t.skills.jsonPreview.platform}"</span><span class="tok-punc">,</span>
-  <span class="tok-key">"role"</span><span class="tok-punc">:</span> <span class="tok-str">"${t.skills.jsonPreview.role}"</span><span class="tok-punc">,</span>
-  <span class="tok-key">"experience_years"</span><span class="tok-punc">:</span> <span class="tok-num">${t.skills.jsonPreview.years}</span>
+  <span class="tok-key">"platform"</span><span class="tok-punc">:</span> <span class="tok-str">"${
+		t.skills.jsonPreview.platform
+	}"</span><span class="tok-punc">,</span>
+  <span class="tok-key">"role"</span><span class="tok-punc">:</span> <span class="tok-str">"${
+		t.skills.jsonPreview.role
+	}"</span><span class="tok-punc">,</span>
+  <span class="tok-key">"experience_years"</span><span class="tok-punc">:</span> <span class="tok-num">${
+		t.skills.jsonPreview.years
+	}</span>
 <span class="tok-brace">}</span></pre>
     </div>
     <h3 class="subheading">${t.skills.technicalTitle}</h3>
@@ -147,7 +205,9 @@ function renderConsole(t, lang) {
 <section class="section" id="experience">
   <div class="section-inner">
     <h2 class="section-title"><span class="path">~/</span>experience<span class="ext-h">.log</span></h2>
-    <p class="section-lede"><span class="prompt">$</span> git log --stat --reverse-date <span class="text-dim">// ${t.experience.lede}</span></p>
+    <p class="section-lede"><span class="prompt">$</span> git log --stat --reverse-date <span class="text-dim">// ${
+			t.experience.lede
+		}</span></p>
     <ol class="gitlog">${gitlog}</ol>
   </div>
 </section>
@@ -177,16 +237,24 @@ function renderConsole(t, lang) {
   <div class="section-inner">
     <h2 class="section-title"><span class="path">~/</span>contact<span class="ext-h">.sh</span></h2>
     <div class="card contact-card">
-      <p class="section-lede"><span class="prompt">$</span> ./contact.sh --to jose <span class="text-dim">// ${t.contact.leadConsole}</span></p>
+      <p class="section-lede"><span class="prompt">$</span> ./contact.sh --to jose <span class="text-dim">// ${
+				t.contact.leadConsole
+			}</span></p>
       <div class="contact-methods" id="contactMethods">
         <a class="contact-item" id="contactLinkedin" href="#" target="_blank" rel="noopener">
-          <span class="contact-label">${t.contact.linkedinLabel}</span><span class="contact-value">${CONTACT.linkedinDisplay}</span>
+          <span class="contact-label">${
+						t.contact.linkedinLabel
+					}</span><span class="contact-value">${CONTACT.linkedinDisplay}</span>
         </a>
         <a class="contact-item" id="contactGithub" href="#" target="_blank" rel="noopener">
-          <span class="contact-label">${t.contact.githubLabel}</span><span class="contact-value">${CONTACT.githubDisplay}</span>
+          <span class="contact-label">${
+						t.contact.githubLabel
+					}</span><span class="contact-value">${CONTACT.githubDisplay}</span>
         </a>
         <span class="contact-item contact-item-static">
-          <span class="contact-label">${t.contact.locationLabel}</span><span class="contact-value">${t.contact.locationValue}</span>
+          <span class="contact-label">${
+						t.contact.locationLabel
+					}</span><span class="contact-value">${t.contact.locationValue}</span>
         </span>
       </div>
       <p class="contact-note">⚠️ ${t.contact.note}</p>
@@ -204,42 +272,58 @@ function renderConsole(t, lang) {
 }
 
 function splitNameForCorporate(name) {
-  const words = name.split(" ");
-  const mid = Math.ceil(words.length / 2);
-  return words.slice(0, mid).join(" ") + "<br>" + words.slice(mid).join(" ");
+	const words = name.split(" ");
+	const mid = Math.ceil(words.length / 2);
+	return words.slice(0, mid).join(" ") + "<br>" + words.slice(mid).join(" ");
 }
 
 // =========================================================
 // TEMPLATE: CORPORATE THEME
 // =========================================================
 function renderCorporate(t, lang) {
-  const otherLang = lang === "en" ? "es" : "en";
-  const nameBr = splitNameForCorporate(t.hero.name);
-  const engagements = t.experience.items.map(item => `
+	const otherLang = lang === "en" ? "es" : "en";
+	const nameBr = splitNameForCorporate(t.hero.name);
+	const engagements = t.experience.items
+		.map(
+			(item) => `
       <article class="engagement">
-        <div class="engagement-period"><span class="period-range">${item.date}</span></div>
+        <div class="engagement-period"><span class="period-range">${
+					item.date
+				}</span></div>
         <div class="engagement-body">
           <h3 class="engagement-role">${item.role}</h3>
           <p class="engagement-context">${item.context}</p>
-          <ul class="engagement-list">${item.bullets.map(b => `<li>${b}</li>`).join("")}</ul>
+          <ul class="engagement-list">${item.bullets
+						.map((b) => `<li>${b}</li>`)
+						.join("")}</ul>
           <p class="engagement-stack">${item.tools}</p>
         </div>
-      </article>`).join("");
+      </article>`
+		)
+		.join("");
 
-  const skillRows = t.skills.tableRows.map(r => `
+	const skillRows = t.skills.tableRows
+		.map(
+			(r) => `
       <div class="skill-row">
         <div class="skill-row-label">${r.label}</div>
         <div class="skill-row-items">${r.items}</div>
-      </div>`).join("");
+      </div>`
+		)
+		.join("");
 
-  const certCards = t.certifications.items.map(c => `
+	const certCards = t.certifications.items
+		.map(
+			(c) => `
       <div class="cert-card${c.gold ? " cert-card-gold" : ""}">
         <span class="cert-seal" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="1.5"/><path d="M13 20.5l4.5 4.5L27 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         <p class="cert-name">${c.name}</p>
         <p class="cert-date">${c.date}</p>
-      </div>`).join("");
+      </div>`
+		)
+		.join("");
 
-  return `
+	return `
 <header class="topbar">
   <div class="topbar-inner">
     <a href="#top" class="brand">
@@ -253,9 +337,13 @@ function renderCorporate(t, lang) {
       <a href="#about" class="nav-link" data-nav>${t.nav.about}</a>
       <a href="#experience" class="nav-link" data-nav>${t.nav.experience}</a>
       <a href="#skills" class="nav-link" data-nav>${t.nav.skills}</a>
-      <a href="#certifications" class="nav-link" data-nav>${t.nav.certifications}</a>
+      <a href="#certifications" class="nav-link" data-nav>${
+				t.nav.certifications
+			}</a>
       <a href="#education" class="nav-link" data-nav>${t.nav.education}</a>
-      <a href="#contact" class="nav-link nav-link-cta" data-nav>${t.nav.contact}</a>
+      <a href="#contact" class="nav-link nav-link-cta" data-nav>${
+				t.nav.contact
+			}</a>
     </nav>
   </div>
 </header>
@@ -268,10 +356,14 @@ function renderCorporate(t, lang) {
       <h1 class="hero-name">${nameBr}</h1>
       <p class="hero-statement">${t.hero.statement}</p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="${RESUME[lang].pdf}" download>${t.hero.ctaDownload}</a>
+        <a class="btn btn-primary" href="${RESUME[lang].pdf}" download>${
+		t.hero.ctaDownload
+	}</a>
         <a class="btn btn-secondary" href="#contact">${t.hero.ctaContact}</a>
       </div>
-      <p class="resume-lang-note"><a href="${RESUME[otherLang].pdf}" download class="resume-lang-link">${t.hero.ctaDownloadOther}</a></p>
+      <p class="resume-lang-note"><a href="${
+				RESUME[otherLang].pdf
+			}" download class="resume-lang-link">${t.hero.ctaDownloadOther}</a></p>
     </div>
     <aside class="profile-card" aria-label="Professional profile summary">
       <div class="profile-card-header">
@@ -282,7 +374,12 @@ function renderCorporate(t, lang) {
         </div>
       </div>
       <dl class="profile-facts">
-        ${t.hero.profileFacts.map(f => `<div class="profile-fact"><dt>${f.label}</dt><dd>${f.value}</dd></div>`).join("")}
+        ${t.hero.profileFacts
+					.map(
+						(f) =>
+							`<div class="profile-fact"><dt>${f.label}</dt><dd>${f.value}</dd></div>`
+					)
+					.join("")}
       </dl>
     </aside>
   </div>
@@ -290,17 +387,28 @@ function renderCorporate(t, lang) {
 
 <section class="section" id="about">
   <div class="section-inner">
-    <div class="section-head"><p class="eyebrow">${t.nav.about}</p><h2 class="section-title">${t.about.title}</h2></div>
+    <div class="section-head"><p class="eyebrow">${
+			t.nav.about
+		}</p><h2 class="section-title">${t.about.title}</h2></div>
     <div class="about-grid">
-      <div class="about-summary">${t.about.paragraphs.map(p => `<p>${p}</p>`).join("")}</div>
+      <div class="about-summary">${t.about.paragraphs
+				.map((p) => `<p>${p}</p>`)
+				.join("")}</div>
       <div class="about-side">
         <div class="panel">
           <h3 class="panel-title">${t.about.softSkillsTitle}</h3>
-          <ul class="tick-list">${t.about.softSkills.map(s => `<li>${s}</li>`).join("")}</ul>
+          <ul class="tick-list">${t.about.softSkills
+						.map((s) => `<li>${s}</li>`)
+						.join("")}</ul>
         </div>
         <div class="panel">
           <h3 class="panel-title">${t.about.languagesTitle}</h3>
-          <ul class="lang-list">${t.about.languages.map(l => `<li><span>${l.name}</span><span class="lang-level lang-${l.cls}">${l.level}</span></li>`).join("")}</ul>
+          <ul class="lang-list">${t.about.languages
+						.map(
+							(l) =>
+								`<li><span>${l.name}</span><span class="lang-level lang-${l.cls}">${l.level}</span></li>`
+						)
+						.join("")}</ul>
         </div>
       </div>
     </div>
@@ -320,21 +428,27 @@ function renderCorporate(t, lang) {
 
 <section class="section" id="skills">
   <div class="section-inner">
-    <div class="section-head"><p class="eyebrow">${t.nav.skills}</p><h2 class="section-title">${t.skills.title}</h2></div>
+    <div class="section-head"><p class="eyebrow">${
+			t.nav.skills
+		}</p><h2 class="section-title">${t.skills.title}</h2></div>
     <div class="skill-table">${skillRows}</div>
   </div>
 </section>
 
 <section class="section section-alt" id="certifications">
   <div class="section-inner">
-    <div class="section-head"><p class="eyebrow">${t.nav.certifications}</p><h2 class="section-title">${t.certifications.title}</h2></div>
+    <div class="section-head"><p class="eyebrow">${
+			t.nav.certifications
+		}</p><h2 class="section-title">${t.certifications.title}</h2></div>
     <div class="cert-grid">${certCards}</div>
   </div>
 </section>
 
 <section class="section" id="education">
   <div class="section-inner">
-    <div class="section-head"><p class="eyebrow">${t.nav.education}</p><h2 class="section-title">${t.education.title}</h2></div>
+    <div class="section-head"><p class="eyebrow">${
+			t.nav.education
+		}</p><h2 class="section-title">${t.education.title}</h2></div>
     <div class="panel edu-panel">
       <div>
         <p class="edu-degree">${t.education.degree}</p>
@@ -355,13 +469,25 @@ function renderCorporate(t, lang) {
     <div class="contact-panel">
       <div class="contact-links" id="contactMethods">
         <a class="contact-link" id="contactLinkedin" href="#" target="_blank" rel="noopener">
-          <span class="contact-link-label">${t.contact.linkedinLabel}</span><span class="contact-link-value">${CONTACT.linkedinDisplay}</span>
+          <span class="contact-link-label">${
+						t.contact.linkedinLabel
+					}</span><span class="contact-link-value">${
+		CONTACT.linkedinDisplay
+	}</span>
         </a>
         <a class="contact-link" id="contactGithub" href="#" target="_blank" rel="noopener">
-          <span class="contact-link-label">${t.contact.githubLabel}</span><span class="contact-link-value">${CONTACT.githubDisplay}</span>
+          <span class="contact-link-label">${
+						t.contact.githubLabel
+					}</span><span class="contact-link-value">${
+		CONTACT.githubDisplay
+	}</span>
         </a>
         <div class="contact-link contact-link-static">
-          <span class="contact-link-label">${t.contact.locationLabel}</span><span class="contact-link-value">${t.contact.locationValue}</span>
+          <span class="contact-link-label">${
+						t.contact.locationLabel
+					}</span><span class="contact-link-value">${
+		t.contact.locationValue
+	}</span>
         </div>
       </div>
       <p class="contact-note">${t.contact.note}</p>
@@ -382,91 +508,110 @@ function renderCorporate(t, lang) {
 // MAIN RENDER + WIRE-UP
 // =========================================================
 function render() {
-  const app = document.getElementById("app");
-  const t = CONTENT[STATE.lang];
-  document.documentElement.lang = STATE.lang;
-  document.body.setAttribute("data-theme", STATE.theme);
+	const app = document.getElementById("app");
+	const t = CONTENT[STATE.lang];
+	document.documentElement.lang = STATE.lang;
+	document.body.setAttribute("data-theme", STATE.theme);
 
-  app.innerHTML = STATE.theme === "console" ? renderConsole(t, STATE.lang) : renderCorporate(t, STATE.lang);
+	app.innerHTML =
+		STATE.theme === "console"
+			? renderConsole(t, STATE.lang)
+			: renderCorporate(t, STATE.lang);
 
-  // contact links
-  const linkedin = document.getElementById("contactLinkedin");
-  const github = document.getElementById("contactGithub");
-  if (linkedin) linkedin.href = CONTACT.linkedin;
-  if (github) github.href = CONTACT.github;
+	// contact links
+	const linkedin = document.getElementById("contactLinkedin");
+	const github = document.getElementById("contactGithub");
+	if (linkedin) linkedin.href = CONTACT.linkedin;
+	if (github) github.href = CONTACT.github;
 
-  // footer year
-  const yearEl = document.getElementById("year");
-  if (yearEl) yearEl.textContent = new Date().getFullYear();
+	// footer year
+	const yearEl = document.getElementById("year");
+	if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // mobile menu (console)
-  const tabToggle = document.getElementById("tabToggle");
-  const tabList = document.getElementById("tabList");
-  if (tabToggle && tabList) {
-    tabToggle.addEventListener("click", () => {
-      const isOpen = tabList.classList.toggle("open");
-      tabToggle.setAttribute("aria-expanded", String(isOpen));
-    });
-    tabList.querySelectorAll("a").forEach(link => {
-      link.addEventListener("click", () => { tabList.classList.remove("open"); tabToggle.setAttribute("aria-expanded", "false"); });
-    });
-  }
+	// mobile menu (console)
+	const tabToggle = document.getElementById("tabToggle");
+	const tabList = document.getElementById("tabList");
+	if (tabToggle && tabList) {
+		tabToggle.addEventListener("click", () => {
+			const isOpen = tabList.classList.toggle("open");
+			tabToggle.setAttribute("aria-expanded", String(isOpen));
+		});
+		tabList.querySelectorAll("a").forEach((link) => {
+			link.addEventListener("click", () => {
+				tabList.classList.remove("open");
+				tabToggle.setAttribute("aria-expanded", "false");
+			});
+		});
+	}
 
-  // mobile menu (corporate)
-  const navToggle = document.getElementById("navToggle");
-  const navList = document.getElementById("navList");
-  if (navToggle && navList) {
-    navToggle.addEventListener("click", () => {
-      const isOpen = navList.classList.toggle("open");
-      navToggle.setAttribute("aria-expanded", String(isOpen));
-    });
-    navList.querySelectorAll("a").forEach(link => {
-      link.addEventListener("click", () => { navList.classList.remove("open"); navToggle.setAttribute("aria-expanded", "false"); });
-    });
-  }
+	// mobile menu (corporate)
+	const navToggle = document.getElementById("navToggle");
+	const navList = document.getElementById("navList");
+	if (navToggle && navList) {
+		navToggle.addEventListener("click", () => {
+			const isOpen = navList.classList.toggle("open");
+			navToggle.setAttribute("aria-expanded", String(isOpen));
+		});
+		navList.querySelectorAll("a").forEach((link) => {
+			link.addEventListener("click", () => {
+				navList.classList.remove("open");
+				navToggle.setAttribute("aria-expanded", "false");
+			});
+		});
+	}
 
-  // scroll-spy active nav/tab
-  const sections = document.querySelectorAll("main .section, main .hero");
-  const navEls = document.querySelectorAll("[data-tab], [data-nav]");
-  if ("IntersectionObserver" in window && sections.length) {
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          navEls.forEach(el => el.classList.toggle("active", el.getAttribute("href") === `#${entry.target.id}`));
-        }
-      });
-    }, { rootMargin: "-45% 0px -50% 0px", threshold: 0 });
-    sections.forEach(s => { if (s.id) observer.observe(s); });
-  }
+	// scroll-spy active nav/tab
+	const sections = document.querySelectorAll("main .section, main .hero");
+	const navEls = document.querySelectorAll("[data-tab], [data-nav]");
+	if ("IntersectionObserver" in window && sections.length) {
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						navEls.forEach((el) =>
+							el.classList.toggle(
+								"active",
+								el.getAttribute("href") === `#${entry.target.id}`
+							)
+						);
+					}
+				});
+			},
+			{ rootMargin: "-45% 0px -50% 0px", threshold: 0 }
+		);
+		sections.forEach((s) => {
+			if (s.id) observer.observe(s);
+		});
+	}
 
-  updateToggleUI();
+	updateToggleUI();
 }
 
 function updateToggleUI() {
-  document.querySelectorAll("[data-set-theme]").forEach(btn => {
-    btn.classList.toggle("prefs-active", btn.dataset.setTheme === STATE.theme);
-  });
-  document.querySelectorAll("[data-set-lang]").forEach(btn => {
-    btn.classList.toggle("prefs-active", btn.dataset.setLang === STATE.lang);
-  });
+	document.querySelectorAll("[data-set-theme]").forEach((btn) => {
+		btn.classList.toggle("prefs-active", btn.dataset.setTheme === STATE.theme);
+	});
+	document.querySelectorAll("[data-set-lang]").forEach((btn) => {
+		btn.classList.toggle("prefs-active", btn.dataset.setLang === STATE.lang);
+	});
 }
 
 // =========================================================
 // TOGGLE BAR WIRE-UP (persistent, outside #app)
 // =========================================================
-document.querySelectorAll("[data-set-theme]").forEach(btn => {
-  btn.addEventListener("click", () => {
-    STATE.theme = btn.dataset.setTheme;
-    savePrefs();
-    render();
-  });
+document.querySelectorAll("[data-set-theme]").forEach((btn) => {
+	btn.addEventListener("click", () => {
+		STATE.theme = btn.dataset.setTheme;
+		savePrefs();
+		render();
+	});
 });
-document.querySelectorAll("[data-set-lang]").forEach(btn => {
-  btn.addEventListener("click", () => {
-    STATE.lang = btn.dataset.setLang;
-    savePrefs();
-    render();
-  });
+document.querySelectorAll("[data-set-lang]").forEach((btn) => {
+	btn.addEventListener("click", () => {
+		STATE.lang = btn.dataset.setLang;
+		savePrefs();
+		render();
+	});
 });
 
 render();
