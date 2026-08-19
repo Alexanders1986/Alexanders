@@ -279,7 +279,7 @@ const CONTENT = {
 
 		contact: {
 			title: "Let's work together",
-			dek: "Available for senior Salesforce development and integration engagements.",
+			dek: "Available for Salesforce solution design, development, integration, and implementation projects, bringing senior-level technical expertise and leadership.",
 			leadConsole: "fill in the details and send",
 			linkedinLabel: "linkedin",
 			githubLabel: "github",
@@ -577,7 +577,7 @@ const CONTENT = {
 
 		contact: {
 			title: "Trabajemos juntos",
-			dek: "Disponible para proyectos de desarrollo e integración Salesforce en rol senior.",
+			dek: "Disponible para participar en proyectos de diseño, desarrollo, integración e implementación de soluciones Salesforce, aportando experiencia técnica y liderazgo como profesional sénior.",
 			leadConsole: "completa los datos y envía",
 			linkedinLabel: "linkedin",
 			githubLabel: "github",
