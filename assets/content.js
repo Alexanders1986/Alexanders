@@ -21,6 +21,7 @@ en: {
     },
     statement: "Delivering enterprise Salesforce solutions across Colombia, Mexico, Peru, Argentina, the United States, and Asia-Pacific for over a decade — from platform architecture and Apex development to AI-driven automation with Agentforce.",
     ctaDownload: "Download Resume (PDF)",
+    ctaDownloadOther: "Also available in Spanish (PDF)",
     ctaContact: "Get in touch",
     ctaExperience: "View experience",
     stats: [
@@ -222,6 +223,7 @@ es: {
     },
     statement: "Entregando soluciones empresariales de Salesforce en Colombia, México, Perú, Argentina, Estados Unidos y Asia-Pacífico durante más de una década — desde arquitectura de plataforma y desarrollo Apex hasta automatización con IA usando Agentforce.",
     ctaDownload: "Descargar CV (PDF)",
+    ctaDownloadOther: "También disponible en inglés (PDF)",
     ctaContact: "Contactar",
     ctaExperience: "Ver experiencia",
     stats: [

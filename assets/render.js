@@ -8,7 +8,10 @@ const CONTACT = {
   githubDisplay: "@your-username",
 };
 
-const RESUME_PDF = "assets/CV_Jose_Alexander_Salamanca_Lozano.pdf";
+const RESUME = {
+  en: { pdf: "assets/CV_Jose_Alexander_Salamanca_Lozano_EN.pdf", docx: "assets/CV_Jose_Alexander_Salamanca_Lozano_EN.docx" },
+  es: { pdf: "assets/CV_Jose_Alexander_Salamanca_Lozano_ES.pdf", docx: "assets/CV_Jose_Alexander_Salamanca_Lozano_ES.docx" },
+};
 
 // =========================================================
 // STATE
@@ -27,7 +30,8 @@ function savePrefs() {
 // =========================================================
 // TEMPLATE: CONSOLE THEME
 // =========================================================
-function renderConsole(t) {
+function renderConsole(t, lang) {
+  const otherLang = lang === "en" ? "es" : "en";
   const gitlog = t.experience.items.map(item => `
       <li class="commit">
         <div class="commit-meta">
@@ -93,10 +97,11 @@ function renderConsole(t) {
       </div>
     </div>
     <div class="hero-actions">
-      <a class="btn btn-primary" href="${RESUME_PDF}" download><span class="btn-icon">↓</span> ${t.hero.ctaDownload}</a>
+      <a class="btn btn-primary" href="${RESUME[lang].pdf}" download><span class="btn-icon">↓</span> ${t.hero.ctaDownload}</a>
       <a class="btn btn-ghost" href="#contact">${t.hero.ctaContact}</a>
       <a class="btn btn-ghost" href="#experience">${t.hero.ctaExperience}</a>
     </div>
+    <p class="resume-lang-note"><a href="${RESUME[otherLang].pdf}" download class="resume-lang-link">${t.hero.ctaDownloadOther}</a></p>
     <ul class="hero-stats">
       ${t.hero.stats.map(s => `<li><span class="stat-num">${s.num}</span><span class="stat-label">${s.label}</span></li>`).join("")}
     </ul>
@@ -207,7 +212,8 @@ function splitNameForCorporate(name) {
 // =========================================================
 // TEMPLATE: CORPORATE THEME
 // =========================================================
-function renderCorporate(t) {
+function renderCorporate(t, lang) {
+  const otherLang = lang === "en" ? "es" : "en";
   const nameBr = splitNameForCorporate(t.hero.name);
   const engagements = t.experience.items.map(item => `
       <article class="engagement">
@@ -262,9 +268,10 @@ function renderCorporate(t) {
       <h1 class="hero-name">${nameBr}</h1>
       <p class="hero-statement">${t.hero.statement}</p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="${RESUME_PDF}" download>${t.hero.ctaDownload}</a>
+        <a class="btn btn-primary" href="${RESUME[lang].pdf}" download>${t.hero.ctaDownload}</a>
         <a class="btn btn-secondary" href="#contact">${t.hero.ctaContact}</a>
       </div>
+      <p class="resume-lang-note"><a href="${RESUME[otherLang].pdf}" download class="resume-lang-link">${t.hero.ctaDownloadOther}</a></p>
     </div>
     <aside class="profile-card" aria-label="Professional profile summary">
       <div class="profile-card-header">
@@ -380,7 +387,7 @@ function render() {
   document.documentElement.lang = STATE.lang;
   document.body.setAttribute("data-theme", STATE.theme);
 
-  app.innerHTML = STATE.theme === "console" ? renderConsole(t) : renderCorporate(t);
+  app.innerHTML = STATE.theme === "console" ? renderConsole(t, STATE.lang) : renderCorporate(t, STATE.lang);
 
   // contact links
   const linkedin = document.getElementById("contactLinkedin");

@@ -23,8 +23,10 @@ site-unified/
     ├── content.js              ← ALL page copy, in English and Spanish
     ├── render.js                ← builds the HTML for each style from content.js
     ├── style.css                 ← shared reset + both themes (scoped by [data-theme])
-    ├── CV_Jose_Alexander_Salamanca_Lozano.pdf   ← downloadable résumé
-    └── CV_Jose_Alexander_Salamanca_Lozano.docx  ← editable résumé
+    ├── CV_Jose_Alexander_Salamanca_Lozano_EN.pdf   ← downloadable résumé (English)
+    ├── CV_Jose_Alexander_Salamanca_Lozano_EN.docx  ← editable résumé (English)
+    ├── CV_Jose_Alexander_Salamanca_Lozano_ES.pdf   ← downloadable résumé (Spanish)
+    └── CV_Jose_Alexander_Salamanca_Lozano_ES.docx  ← editable résumé (Spanish)
 ```
 
 ## 1. Before you publish
@@ -39,6 +41,19 @@ const CONTACT = {
   githubDisplay: "@your-username",
 };
 ```
+
+**Résumé downloads** — the hero's primary "Download" button always links to the PDF that
+matches the page's *currently selected* language, with a small secondary link underneath
+offering the other language's PDF directly (e.g. reading the English page still lets you
+grab the Spanish PDF, and vice versa). Both files live in `assets/`:
+
+- `CV_Jose_Alexander_Salamanca_Lozano_EN.pdf` / `.docx` — English résumé
+- `CV_Jose_Alexander_Salamanca_Lozano_ES.pdf` / `.docx` — Spanish résumé (translated,
+  same formatting/pagination as the English version)
+
+If you update one language's résumé content, remember to update the matching `.docx` (and
+re-export the `.pdf`) for the other language too, so both stay in sync — the `.docx` files
+are included specifically so you can keep editing them in Word.
 
 **Text content** — all copy (English and Spanish) lives in `assets/content.js`, organized
 by section (`hero`, `about`, `skills`, `experience`, `certifications`, `education`,
