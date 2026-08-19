@@ -1,81 +1,94 @@
-# Sitio portafolio — Jose Alexander Salamanca Lozano
+# Portfolio site — Unified edition (EN/ES + Console/Corporate)
 
-Sitio estático (HTML/CSS/JS puro, sin frameworks ni build step) generado a partir del CV,
-con estética de "consola de desarrollador": pestañas de editor, terminal, git log de experiencia
-y skills en formato JSON. 100% responsive.
+A single static site (plain HTML/CSS/JS, no framework, no build step) that lets visitors
+switch between **two languages** (English / Spanish) and **two visual styles** (Developer
+Console / Corporate) using the toggle bar at the top of the page. The choice is remembered
+between visits (saved in the browser).
 
-## Estructura
+- **Console style** — a "developer console" aesthetic: editor tabs, terminal hero, work
+  history as a git log, skills as JSON.
+- **Corporate style** — a formal "professional dossier" look: a cover-sheet profile card,
+  and work history as a clean "Engagement Record" ledger.
+
+All page content (both languages, all sections) is re-rendered client-side from a single
+data source, so there is only one copy of the résumé data to keep in sync.
+
+## Structure
 
 ```
-site/
-├── index.html
+site-unified/
+├── index.html                 ← shell: toggle bar + empty #app container
 ├── README.md
 └── assets/
-    ├── style.css
-    ├── script.js
-    └── CV_Jose_Alexander_Salamanca_Lozano.pdf   ← CV descargable (botón "Descargar CV")
+    ├── content.js              ← ALL page copy, in English and Spanish
+    ├── render.js                ← builds the HTML for each style from content.js
+    ├── style.css                 ← shared reset + both themes (scoped by [data-theme])
+    ├── CV_Jose_Alexander_Salamanca_Lozano.pdf   ← downloadable résumé
+    └── CV_Jose_Alexander_Salamanca_Lozano.docx  ← editable résumé
 ```
 
-## 1. Antes de publicar: completa tus datos de contacto
+## 1. Before you publish
 
-Abre `assets/script.js` y edita el objeto `CONTACT` al principio del archivo:
+**Contact links** — open `assets/render.js` and edit the `CONTACT` object near the top:
 
 ```js
 const CONTACT = {
-  linkedin: "https://www.linkedin.com/in/tu-usuario",
-  linkedinDisplay: "/in/tu-usuario",
-  github: "https://github.com/tu-usuario",
-  githubDisplay: "@tu-usuario",
+  linkedin: "https://www.linkedin.com/in/your-username",
+  linkedinDisplay: "/in/your-username",
+  github: "https://github.com/your-username",
+  githubDisplay: "@your-username",
 };
 ```
 
-Por privacidad, el sitio **no publica correo ni número de celular** — solo enlaces a tus
-perfiles de LinkedIn y GitHub. Si en algún momento quieres agregar un canal de contacto directo,
-lo más seguro es un formulario (ej. Formspree, Getform) en vez de exponer el dato en texto plano.
+**Text content** — all copy (English and Spanish) lives in `assets/content.js`, organized
+by section (`hero`, `about`, `skills`, `experience`, `certifications`, `education`,
+`contact`). Edit the `en` and `es` objects there; both themes pull from the same data, so
+you only need to update text once for it to appear correctly in both styles.
 
-Tampoco se mencionan los nombres de las empresas en las que has trabajado ni de los clientes de
-cada proyecto; cada rol se describe por sector/país para dar contexto sin revelar esa información.
+For privacy, the site does not publish an email address or phone number, and company names
+are intentionally omitted from the experience section (each engagement is described by
+industry/country instead).
 
-Si además reemplazas el PDF en `assets/CV_Jose_Alexander_Salamanca_Lozano.pdf` por una versión
-más nueva, mantén el mismo nombre de archivo (o actualiza el `href` del botón de descarga en
-`index.html`, sección `.hero-actions`).
+## 2. Publish on GitHub Pages (free)
 
-## 2. Publicar en GitHub Pages (gratis)
-
-1. Crea un repositorio nuevo en GitHub, por ejemplo `tu-usuario.github.io` (para que quede en la
-   raíz de tu dominio de usuario) o cualquier otro nombre, ej. `portafolio`.
-2. Sube el **contenido de esta carpeta** (`index.html`, `README.md` y `assets/`) a la raíz del
-   repositorio:
+1. Create a new GitHub repository, e.g. `your-username.github.io` or `portfolio`.
+2. Push the **contents of this folder** to the root of the repository:
    ```bash
    git init
    git add .
-   git commit -m "Portafolio inicial"
+   git commit -m "Unified portfolio (EN/ES, Console/Corporate)"
    git branch -M main
-   git remote add origin https://github.com/tu-usuario/tu-repositorio.git
+   git remote add origin https://github.com/your-username/your-repo.git
    git push -u origin main
    ```
-3. En GitHub, ve a **Settings → Pages**.
-4. En "Build and deployment", selecciona **Source: Deploy from a branch**, rama `main`,
-   carpeta `/ (root)`. Guarda.
-5. Espera 1–2 minutos. Tu sitio quedará publicado en:
-   - `https://tu-usuario.github.io/tu-repositorio/` (repos normales), o
-   - `https://tu-usuario.github.io/` (si el repo se llama `tu-usuario.github.io`).
+3. In GitHub, go to **Settings → Pages** → Source: **Deploy from a branch**, branch `main`,
+   folder `/ (root)`. Save.
+4. Your site will be live in 1–2 minutes at `https://your-username.github.io/your-repo/`.
 
-## 3. Alternativas de publicación (igual de gratis)
+## 3. Alternative hosting (also free)
 
-- **Netlify / Vercel**: arrastra la carpeta a [app.netlify.com/drop](https://app.netlify.com/drop)
-  o conecta el repositorio de GitHub — despliegue automático en cada push.
-- **Cloudflare Pages**: conecta el repo, sin configuración de build necesaria (es un sitio estático).
+- **Netlify / Vercel**: drag the folder to [app.netlify.com/drop](https://app.netlify.com/drop)
+  or connect the GitHub repo for automatic deploys.
+- **Cloudflare Pages**: connect the repo — no build configuration needed.
 
-## 4. Dominio propio (opcional)
+## How the toggle system works
 
-Cualquiera de las opciones anteriores permite conectar un dominio propio (ej. `josesalamanca.dev`)
-desde su panel de configuración, sin tocar el código del sitio.
+- `index.html` only contains the toggle bar and an empty `<div id="app">`.
+- `assets/render.js` reads the current language/style from `localStorage` (defaulting to
+  English + Console on first visit), builds the matching HTML from `assets/content.js`,
+  and injects it into `#app`.
+- Clicking a toggle button updates the saved preference and re-renders `#app` — no page
+  reload needed.
+- `assets/style.css` contains both themes' styles, each scoped under
+  `body[data-theme="console"]` / `body[data-theme="corporate"]`, plus one shared reset.
+  Since only one theme's markup exists in `#app` at a time, there's no visual conflict.
 
-## Notas técnicas
+## Notes
 
-- No requiere `npm install` ni build: son archivos estáticos.
-- Tipografías: JetBrains Mono + IBM Plex Sans, vía Google Fonts (requiere conexión a internet
-  para cargar; si prefieres que funcione 100% offline, puedes auto-hospedar las fuentes).
-- Accesibilidad: navegación por teclado, foco visible, `prefers-reduced-motion` respetado.
-- El menú móvil aparece automáticamente por debajo de 640px de ancho.
+- No `npm install` or build step required.
+- Fonts: JetBrains Mono + IBM Plex Sans (console) and Source Serif 4 + Inter (corporate),
+  all loaded via Google Fonts in `index.html`.
+- Accessibility: keyboard navigation, visible focus states, `prefers-reduced-motion`
+  respected in both themes.
+- Uses `localStorage` to remember the visitor's language/style choice — this is a real
+  published site (not a sandboxed preview), so this works normally in any browser.
