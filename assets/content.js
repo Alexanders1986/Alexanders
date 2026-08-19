@@ -285,6 +285,7 @@ const CONTENT = {
 			githubLabel: "github",
 			locationLabel: "location",
 			locationValue: "Bogotá, Colombia",
+			note: "",
 		},
 
 		footer: {
@@ -582,6 +583,7 @@ const CONTENT = {
 			githubLabel: "github",
 			locationLabel: "ubicación",
 			locationValue: "Bogotá, Colombia",
+			note: "",
 		},
 
 		footer: {
