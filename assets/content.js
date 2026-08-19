@@ -285,7 +285,6 @@ const CONTENT = {
 			githubLabel: "github",
 			locationLabel: "location",
 			locationValue: "Bogotá, Colombia",
-			note: "Update your LinkedIn and GitHub links in <code>assets/content.js</code> (the <code>CONTACT</code> object in <code>render.js</code>). For privacy, this site does not publish an email address or phone number.",
 		},
 
 		footer: {
@@ -583,7 +582,6 @@ const CONTENT = {
 			githubLabel: "github",
 			locationLabel: "ubicación",
 			locationValue: "Bogotá, Colombia",
-			note: "Actualiza tus enlaces de LinkedIn y GitHub en <code>assets/render.js</code> (objeto <code>CONTACT</code>). Por privacidad, este sitio no publica correo ni número de celular.",
 		},
 
 		footer: {
